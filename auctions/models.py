@@ -11,9 +11,9 @@ class Listing(models.Model):
     item_name = models.CharField(max_length=64, blank=False)
     product_category = models.CharField(max_length=32, blank=False)
     product_details = models.TextField(max_length=256, blank=False)
-    listing_image_link = models.CharField(max_length=256)
+    listing_image_link = models.CharField(max_length=256,blank=True )
     listing_image = models.ImageField(blank = True, upload_to='static/img/%Y/%m/%d')
-    most_recent_bid = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
+    price = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
 
     def __str__(self):
         return f"Listing id: {self.pk}, item: {self.item_name} "

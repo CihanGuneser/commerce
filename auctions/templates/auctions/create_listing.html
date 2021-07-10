@@ -1,11 +1,13 @@
 {% extends "auctions/layout.html" %}
-
+{% load crispy_forms_tags %}
 {% block body %}
 
-<form action="{% url 'save' %}" method="POST">
+<form enctype="multipart/form-data" action="{% url 'save' %}" method="POST">
     {% csrf_token %}
 
-    {{form}}
+    <!-- {{form.media}} -->
+
+    {{form|crispy}}
 
     <input type="submit" value="Save">
 

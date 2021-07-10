@@ -1,0 +1,8 @@
+used modules: pillow,Django Crispy Forms
+
+10.07.2021
+    Created form automatially from models. 
+    Installed Django crispy forms.
+    Added "" enctype="multipart/form-data" "" to form attributes on html
+    //File(image) upload not working
+    //usernam should be recorded automatically
