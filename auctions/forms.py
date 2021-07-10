@@ -1,10 +1,14 @@
 from django import forms
-from django.forms.widgets import TextInput, Textarea
+from django.forms.fields import ImageField
+from django.forms.widgets import FileInput, NumberInput, TextInput, Textarea
+from .models import Listing
 
-class ListingForm(forms.Form):
-    product_category = forms.CharField(widget=TextInput(attrs={'autocomplete':'off'}))
-    product_details = forms.CharField(widget=Textarea)
-    item_name = forms.CharField()
-    listing_image = forms.ImageField()
-    listing_image_link = forms.CharField()
-    most_recent_bid = forms.DecimalField()
+class ListingForm(forms.ModelForm):
+    
+    class Meta:
+        model = Listing
+        fields = ('product_category','product_details','item_name','listing_image_link','most_recent_bid')
+
+    
+    #user_id = models.ForeignKey(User, on_delete=CASCADE)  #many to one relationship with User model
+    #listing_image = models.ImageField(blank = True, upload_to='static/img/%Y/%m/%d')

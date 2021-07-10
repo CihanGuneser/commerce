@@ -71,5 +71,16 @@ def create_listing(request):
 
 def save(request):
     if request.method =='POST':
-        return HttpResponseRedirect(reverse("index"))
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            product_category = form.cleaned_data['product_category']
+            product_details = form.cleaned_data['product_details']
+            item_name = form.cleaned_data['item_name']
+            #listing_image = form.cleaned_data['listing_image']
+            listing_image_link = form.cleaned_data['listing_image_link']
+            most_recent_bid = form.cleaned_data['most_recent_bid']
+
+            print (form.cleaned_data)
+
+    return HttpResponseRedirect(reverse("index"))
 

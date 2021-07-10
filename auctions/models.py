@@ -8,7 +8,7 @@ class User(AbstractUser):
 
 class Listing(models.Model):
     product_category = models.CharField(max_length=32, blank=False)
-    product_details = models.CharField(max_length=256, blank=False)
+    product_details = models.TextField(max_length=256, blank=False)
     user_id = models.ForeignKey(User, on_delete=CASCADE)  #many to one relationship with User model
     item_name = models.CharField(max_length=64, blank=False)
     listing_image = models.ImageField(blank = True, upload_to='static/img/%Y/%m/%d')
