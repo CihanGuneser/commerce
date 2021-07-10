@@ -4,17 +4,18 @@
 {% block body %}
 {% load static %}
     <h2>Active Listings</h2>
-    <ul><h2>All items of the Listing :</h2></ul>
+    <h5>All items of the Listing :</h5>
     
     {%for item in Listing%}
     
     <div class="listing_div">
-
-        <li><a href="">{{ item.item_name }}</a> <br>
-            Price: $ {{ item.most_recent_bid }}  <br>
+        <ul>
+            <li> Item Name:<a href=""> {{ item.item_name }}</a></li>
+            Price: $ {{ item.price }}  <br>
             Product Category: {{ item.product_category }}<br>
             Product Details: {{ item.product_details }}<br>
-            
+            External Image Link: {{ itme.listing_image_link }}<br>
+            Image: <br>
             {%if item.listing_image %}
             <img src="{{item.listing_image.url}}" alt="" 
                     style="object-fit:contain;
@@ -24,11 +25,10 @@
             {% else %}
             <p style="color: red; font-style:italic" >There is no image uploaded.</p> 
             {% endif %}<hr>
-        </li>
+        </ul>
         
     </div>
 
-    
     {% endfor %}
 
 {% endblock %}
