@@ -5,14 +5,8 @@
 <form action="{% url 'save' %}" method="POST">
     {% csrf_token %}
 
-    <h5>user name:</h5> user_id
-    <h5>item name:</h5> <input type="text" name="item_name" id="" placeholder="Item name"> item_name
-    <h5>product category:</h5> <input type="text" name="product_category" id="" placeholder="Category"> product_category
-    <h5>product details:</h5> <input type="text" name="product_details" id="" placeholder="Details"> product_details
-    <h5>Price:</h5><input type="text" name="most_recent_bid" id="" placeholder="Openning Price">  most_recent_bid 
-    <h5>listing image (optional):</h5><input type="image" name="listing_image">listing_image 
-    <h5>Image url (optional):</h5><input type="url" name="listing_image_link">listing_image_link 
-    <br>
+    {{form}}
+
     <input type="submit" value="Save">
 
 </form>
