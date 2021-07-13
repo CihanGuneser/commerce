@@ -12,7 +12,7 @@ class Listing(models.Model):
     product_category = models.CharField(max_length=32, blank=False)
     product_details = models.TextField(max_length=256, blank=False)
     listing_image_link = models.CharField(max_length=256,blank=True )
-    listing_image = models.ImageField(blank = True, upload_to='static/img/%Y/%m/%d')
+    listing_image = models.ImageField(blank = True, upload_to='img/%Y/%m/%d')
     price = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
 
     def __str__(self):
