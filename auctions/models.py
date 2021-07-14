@@ -19,12 +19,14 @@ class Listing(models.Model):
         return f"Listing id: {self.pk}, item: {self.item_name} "
 
 class Bid(models.Model):
+
     price = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     Listing_id = models.ForeignKey(Listing, on_delete=CASCADE)
+    bid_date  = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Bid id: {self.pk}, {self.Listing_id} "
+        return f"Bid id: {self.pk}, {self.Listing_id}, created at {self.bid_date} "
 
 class Comment(models.Model):
     comment_title = models.CharField(max_length=32, blank=False)
@@ -34,4 +36,4 @@ class Comment(models.Model):
     listing_id = models.ForeignKey(Listing, on_delete=CASCADE)
 
     def __str__(self):
-        return f"Comment id: {self.id}, on item: {self.listing_id}, at {self.comment_time}"
+        return f"Comment id: {self.id}, on item: {self.listing_id}, created at {self.comment_time}"
