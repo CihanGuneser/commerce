@@ -4,5 +4,7 @@ body {
 }
 
 .listing_div {
-    background-color:bisque
+    background-color:bisque;
+    display: flex;
 }
+
