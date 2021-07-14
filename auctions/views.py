@@ -2,6 +2,7 @@ from typing import List
 from django.contrib.auth import authenticate, login, logout, models
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -71,9 +72,13 @@ def create_listing(request):
 
 def save(request):
     if request.method =='POST':
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
 
     return HttpResponseRedirect(reverse("index"))
 
+def item_view(request, item_id):
+    return render(request,"auctions/item.html",{
+        "item_id":item_id
+    })

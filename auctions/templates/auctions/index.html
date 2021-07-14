@@ -10,11 +10,11 @@
     
     <div class="listing_div">
         <ul>
-            <li> Item Name:<a href=""> {{ item.item_name }}</a></li>
+            <li> Item Name:<a href="{% url 'item' item_id=item.id %}"> {{ item.item_name }}</a></li>
             Price: $ {{ item.price }}  <br>
             Product Category: {{ item.product_category }}<br>
             Product Details: {{ item.product_details }}<br>
-            External Image Link: {{ itme.listing_image_link }}<br>
+            External Image Link: {{ item.listing_image_link }}<br>
             Image: <br>
             {%if item.listing_image %}
             <img src="{{item.listing_image.url}}" alt="" 
