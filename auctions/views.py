@@ -78,7 +78,13 @@ def save(request):
 
     return HttpResponseRedirect(reverse("index"))
 
-def item_view(request, item_id):
+def item_view(request,item_id):
+
+    item = Listing.objects.get(pk=item_id)
     return render(request,"auctions/item.html",{
-        "item_id":item_id
-    })
+        "name":item.item_name,
+        "item_id":item.id,
+        'price':item.price,
+        'details':item.product_details,
+        'listing_image': item.listing_image.url
+})

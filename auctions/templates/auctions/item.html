@@ -1,7 +1,28 @@
 {% extends "auctions/layout.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
+{% load static %}
 
-Item page {{item_id}}
+<h2>Item Page</h2>
+
+<div class="listing_div" id="{{item.id}}">
+    <ul>
+        <li> Item Name:<a href=""> {{name}}</a></li>
+        Item Id: {{item_id}} <br>
+        Openning Price: $ {{ price }}  <br>
+        Details: {{details}} <br>
+        Image: <br>
+        {%if listing_image %}
+        <img src="{{listing_image}}" alt="" 
+                style="object-fit:contain;
+                width:200px;
+                height:300px;
+                border: solid 1px #CCC">
+        {% else %}
+        <p style="color: red; font-style:italic" >There is no image uploaded.</p> 
+        {% endif %}<hr>
+    </ul>
+    
+</div>
 
 {% endblock %}
