@@ -9,6 +9,18 @@ from django.urls import reverse
 from .models import Listing, User
 from .forms import ListingForm
 
+def watchlist_view(request, item_id):
+    item = get_object_or_404(Listing, pk=item_id)
+    watchlisted=False
+    if item.watchlist.filter(id=request.user.id).exists():
+        item.watchlist.remove(request.user)
+        watchlisted=False
+    else:
+        item.watchlist.add(request.user)
+        watchlisted=True
+    
+    return HttpResponseRedirect(reverse('item', args=[item_id]))
+
 def index(request):
     return render(request, "auctions/index.html", {
         'Listing':Listing.objects.all(),
@@ -79,6 +91,12 @@ def save(request):
     return HttpResponseRedirect(reverse("index"))
 
 def item_view(request,item_id):
+    item = get_object_or_404(Listing, pk=item_id)
+
+    if item.watchlist.filter(id=request.user.id).exists():
+        button_tag="Remove_from_watchlist"
+    else:
+        button_tag="Add_to_watchlist"
 
     item = Listing.objects.get(pk=item_id)
     return render(request,"auctions/item.html",{
@@ -86,23 +104,11 @@ def item_view(request,item_id):
         "item_id":item.id,
         'price':item.price,
         'details':item.product_details,
-        'listing_image': item.listing_image.url
+        'listing_image': item.listing_image.url,
+        'button_tag':button_tag
     })
 
-def watchlist(request, item_id):
-    item = get_object_or_404(Listing, pk=item_id)
-    watchlisted=False
-    if item.watchlist.filter(id=request.user.id).exists():
-        return render(request,'auctions/watchlist.html', {
-        'x':"exists", 
-        'item' : item_id
-        })
-    else:
-        return render(request,'auctions/watchlist.html', {
-        'x':"doesnt exists",
-        #'x':item.watchlist.filter(id=request.user.id), 
-        'item' : item_id
-        })
+
        
     
 

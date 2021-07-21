@@ -7,11 +7,11 @@
 
 <div class="listing_div" id="{{item.id}}"> 
     <ul>
-        Item Name:<a href=""> {{name}}</a> 
+        Item Name:<a href=""> {{name}} </a> 
         {% if user.is_authenticated %}
         <form method=POST action="{% url 'watchlist' item_id=item_id %}"> 
             {% csrf_token %}
-            <input type="submit" value="Add to watchlist">
+            <input type="submit" value={{button_tag}}>
         </form><br>
         {% else %}
         <form method=GET action="{% url 'login' %} "> 
