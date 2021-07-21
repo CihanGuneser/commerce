@@ -2,12 +2,14 @@
 {% load crispy_forms_tags %}
 {% block body %}
 {% load static %}
+<h2>Active Listing:</h2>
 
-<h2>Item Page</h2>
+  <a href="{% url 'index' %}"><< Back to Listings </a>  
 
+ 
 <div class="listing_div" id="{{item.id}}"> 
     <ul>
-        Item Name:<a href=""> {{name}} </a> 
+        <h5>{{name}}</h5>
         {% if user.is_authenticated %}
         <form method=POST action="{% url 'watchlist' item_id=item_id %}"> 
             {% csrf_token %}
@@ -19,7 +21,8 @@
         </form><br>
         {% endif %}
         Item Id: {{item_id}} <br>
-        Openning Price: $ {{ price }}  <br>
+        Openning Price: $ {{ price }} | <a href="">Bid</a> <br>
+        Last Bid: $ {{last_bid}} <br>
         Details: {{details}} <br>
         {%if listing_image %}
         <img src="{{listing_image}}" alt="" 
