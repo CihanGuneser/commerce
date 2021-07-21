@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout, models
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.request import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .models import Listing, User
@@ -87,4 +87,22 @@ def item_view(request,item_id):
         'price':item.price,
         'details':item.product_details,
         'listing_image': item.listing_image.url
-})
+    })
+
+def watchlist(request, item_id):
+    item = get_object_or_404(Listing, pk=item_id)
+    watchlisted=False
+    if item.watchlist.filter(id=request.user.id).exists():
+        return render(request,'auctions/watchlist.html', {
+        'x':"exists", 
+        'item' : item_id
+        })
+    else:
+        return render(request,'auctions/watchlist.html', {
+        'x':"doesnt exists",
+        #'x':item.watchlist.filter(id=request.user.id), 
+        'item' : item_id
+        })
+       
+    
+

@@ -7,11 +7,20 @@
 
 <div class="listing_div" id="{{item.id}}"> 
     <ul>
-        Item Name:<a href=""> {{name}}</a> <input type="button" value="Add to watchlist">  <br>
+        Item Name:<a href=""> {{name}}</a> 
+        {% if user.is_authenticated %}
+        <form method=POST action="{% url 'watchlist' item_id=item_id %}"> 
+            {% csrf_token %}
+            <input type="submit" value="Add to watchlist">
+        </form><br>
+        {% else %}
+        <form method=GET action="{% url 'login' %} "> 
+            <input type="submit" value="Login to add to your watchlist">
+        </form><br>
+        {% endif %}
         Item Id: {{item_id}} <br>
         Openning Price: $ {{ price }}  <br>
         Details: {{details}} <br>
-        Image: <br>
         {%if listing_image %}
         <img src="{{listing_image}}" alt="" 
                 style="object-fit:contain;
