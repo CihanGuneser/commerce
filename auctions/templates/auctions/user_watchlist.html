@@ -11,10 +11,8 @@
     
     <div class="listing_div">
         <ul>
-            result: {{watchlist_items}}
-            user id:{{user_id}} or {{request.user.id}}
-            {%for x in watchlist_items %}
-            <li><a href="">{{x}}</a></li>  
+            {%for item in watchlist_items %}
+            <li><a href="{% url 'item' item.id %}">{{item.item_name}}</a></li>  
             {% endfor %}
         </ul>
     </div>
