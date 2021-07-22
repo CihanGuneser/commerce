@@ -1,7 +1,9 @@
 from typing import List
 from django.contrib.auth import authenticate, login, logout, models
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http import request
 from django.http.request import HttpRequest
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -107,6 +109,19 @@ def item_view(request,item_id):
         'listing_image': item.listing_image.url,
         'button_tag':button_tag #####
     })
+
+def user_watchlist_view(request,user_id):
+   
+    watchlist_items = Listing.objects.filter(watchlist__id=user_id)
+
+    return render(request,"auctions/user_watchlist.html",{
+        #'name':User.objects.get(pk=user_id),
+        #'watchlist_items':Listing.objects.get(pk=user_id)
+        'watchlist_items':watchlist_items
+    })
+    
+    
+
 
 
        

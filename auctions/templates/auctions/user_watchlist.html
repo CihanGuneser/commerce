@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+{% load static %}
+
+    <h2>Watchlists</h2>
+    <h5>My Watchlist :</h5>
+     <br> 
+
+    
+    
+    <div class="listing_div">
+        <ul>
+            result: {{watchlist_items}}
+            user id:{{user_id}} or {{request.user.id}}
+            {%for x in watchlist_items %}
+            <li><a href="">{{x}}</a></li>  
+            {% endfor %}
+        </ul>
+    </div>
+
+    
+
+{% endblock %}
