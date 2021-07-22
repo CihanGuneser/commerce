@@ -105,7 +105,7 @@ def item_view(request,item_id):
         'price':item.price,
         'details':item.product_details,
         'listing_image': item.listing_image.url,
-        'button_tag':button_tag #
+        'button_tag':button_tag ##
     })
 
 
