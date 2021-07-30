@@ -3,10 +3,7 @@
 {% block body %}
 {% load static %}
 <h2>Active Listing:</h2>
-
   <a href="{% url 'index' %}"><< Back to Listings </a>  
-
- 
 <div class="listing_div" id="{{item.id}}"> 
     <ul>
         <h5>{{name}}</h5>
@@ -16,40 +13,42 @@
             <input type="submit" value={{button_tag}}>
         </form><br>
         {% else %}
-        <form method=GET action="{% url 'login' %} "> 
-            <input type="submit" value="Login to add to your watchlist">
-        </form><br>
+            Please <i><b><a href="{% url 'login' %}">Login</a></b></i> to add to your watchlist <br>
         {% endif %}
         Item Id: {{item_id}} <br>
         Openning Price: $ {{ price }} 
         <hr>
         
     
-        
-        {%if bid%}
-        <b>Last Bid:</b>  $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
-            {%if user == bid.user %} 
-            <p>You bidded last!</p>
+        {% if user.is_authenticated %}
+            {%if bid%}
+            <b>Last Bid:</b>  $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
+                {%if user == bid.user %} 
+                <p>You bidded last!</p>
+                {% else %}
+                <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                {% csrf_token %}
+                    <div class="currency-wrap">
+                        <span class="currency-code">$</span>
+                        <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
+                        <input type="submit" value="Place Bid">
+                    </div>
+                </form>
+                {% endif %}
             {% else %}
-
-            <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
                 {% csrf_token %}
-                <input type="number" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
-                <input type="submit" value="Place Bid">
-            </form>
+                    <div class="currency-wrap">
+                        <span class="currency-code">$</span>
+                        <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
+                        <input type="submit" value="Place Bid">
+                    </div>
+                </form>
             {% endif %}
-
         {% else %}
-
-            <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
-                {% csrf_token %}
-                <input type="number" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
-                <input type="submit" value="Place Bid">
-            </form>
-            
+        Latest Bid: $ {{bid.bid}} <b><i><a href="{% url 'login' %}">Login</a></b></i> to add to your watchlist <br>
         {% endif %}
-        
-        
+
         <hr>
         Details: {{details}} <br>
         {%if listing_image %}

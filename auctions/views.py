@@ -110,6 +110,9 @@ def item_view(request,item_id):
     except ObjectDoesNotExist:
         bid = None
         min_bid = float(item.price) + 0.01
+    
+    if min_bid < item.price:
+        min_bid = float(item.price) + 0.01
             
     item = Listing.objects.get(pk=item_id)
     return render(request,"auctions/item.html",{
@@ -142,7 +145,6 @@ def place_bid_view(request,item_id):
         bid_listing = Listing(pk=item_id)
         b=Bid(bid=newest_bid, user = bid_user, listing = bid_listing)
         b.save()
-        #Listing(pk=item_id).price = 
     
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("item", args= {item_id}))
 
