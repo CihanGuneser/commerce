@@ -21,8 +21,17 @@
         </form><br>
         {% endif %}
         Item Id: {{item_id}} <br>
-        Openning Price: $ {{ price }} | <a href="">Bid</a> <br>
-        Last Bid: $ {{last_bid}} <br>
+        Openning Price: $ {{ price }} 
+        <hr>
+        {%if bid%}
+        Last Bid: $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
+            {%if user == bid.user %} 
+            <p>You bidded last!</p>
+            {% else %}
+            <a href="">Bid</a> <br>
+            {% endif %}
+        {% endif %}
+        <hr>
         Details: {{details}} <br>
         {%if listing_image %}
         <img src="{{listing_image}}" alt="" 

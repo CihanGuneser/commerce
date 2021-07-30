@@ -21,10 +21,10 @@ class Listing(models.Model):
 
 class Bid(models.Model):
 
-    price = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
-    user_id = models.ForeignKey(User, on_delete=CASCADE)
-    Listing_id = models.ForeignKey(Listing, on_delete=CASCADE)
-    bid_date  = models.DateTimeField(auto_now_add=True)
+    bid = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    Listing = models.ForeignKey(Listing, on_delete=CASCADE)
+    date  = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Bid id: {self.pk}, {self.Listing_id}, created at {self.bid_date} "

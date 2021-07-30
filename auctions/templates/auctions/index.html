@@ -14,8 +14,9 @@
             Price: $ {{ item.price }}  <br>
             Product Category: {{ item.product_category }}<br>
             Product Details: {{ item.product_details }}<br>
+            {%if item.listing_image_link%}
             External Image Link: {{ item.listing_image_link }}<br>
-            Image: <br>
+            {% endif %}
             {%if item.listing_image %}
             <img src="{{item.listing_image.url}}" alt="" 
                     style="object-fit:contain;

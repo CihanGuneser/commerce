@@ -1,14 +1,16 @@
-from typing import List
+from typing import List, NoReturn
 from django.contrib.auth import authenticate, login, logout, models
 from django.contrib.auth.models import User
+from django.core import exceptions
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import request
 from django.http.request import HttpRequest
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Listing, User
+from .models import Bid, Listing, User
 from .forms import ListingForm
 
 def watchlist_view(request, item_id):
@@ -100,6 +102,12 @@ def item_view(request,item_id):
     else:
         button_tag="Add_to_watchlist"
 
+    
+    try: 
+        bid = Bid.objects.get(Listing=item_id)
+    except ObjectDoesNotExist:
+        bid = None
+    
     item = Listing.objects.get(pk=item_id)
     return render(request,"auctions/item.html",{
         "name":item.item_name,
@@ -107,8 +115,10 @@ def item_view(request,item_id):
         'price':item.price,
         'details':item.product_details,
         'listing_image': item.listing_image.url,
-        'button_tag':button_tag #####
+        'button_tag':button_tag,
+        'bid':bid
     })
+  
 
 def user_watchlist_view(request,user_id):
    
