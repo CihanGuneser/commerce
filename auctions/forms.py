@@ -1,7 +1,9 @@
 from django import forms
+from django.forms import widgets
 from django.forms.fields import ImageField
+from django.forms.models import ModelChoiceField
 from django.forms.widgets import FileInput, NumberInput, TextInput, Textarea
-from .models import Listing
+from .models import Bid, Listing
 
 class ListingForm(forms.ModelForm):
     

@@ -15,6 +15,7 @@ class Listing(models.Model):
     listing_image = models.ImageField(blank = True, upload_to='img/%Y/%m/%d')
     price = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
     watchlist = models.ManyToManyField(User,related_name='watchlist',default=None, blank=True)
+    last_bid = models.DecimalField(decimal_places=2, max_digits=6, default=0 )
 
     def __str__(self):
         return f"Listing id: {self.pk}, item: {self.item_name} "
@@ -23,11 +24,11 @@ class Bid(models.Model):
 
     bid = models.DecimalField(decimal_places=2, max_digits=6, blank=False)
     user = models.ForeignKey(User, on_delete=CASCADE)
-    Listing = models.ForeignKey(Listing, on_delete=CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=CASCADE)
     date  = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Bid id: {self.pk}, {self.Listing_id}, created at {self.bid_date} "
+        return f"Bid id: {self.pk}, {self.listing_id}, created at {self.date} "
 
 class Comment(models.Model):
     comment_title = models.CharField(max_length=32, blank=False)

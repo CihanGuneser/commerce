@@ -95,6 +95,7 @@ def save(request):
     return HttpResponseRedirect(reverse("index"))
 
 def item_view(request,item_id):
+
     item = get_object_or_404(Listing, pk=item_id)
 
     if item.watchlist.filter(id=request.user.id).exists():
@@ -102,12 +103,14 @@ def item_view(request,item_id):
     else:
         button_tag="Add_to_watchlist"
 
-    
     try: 
-        bid = Bid.objects.get(Listing=item_id)
+        bid = Bid.objects.filter(listing=item_id).latest('date')
+        min_bid = float(bid.bid) + 0.01
+         
     except ObjectDoesNotExist:
         bid = None
-    
+        min_bid = float(item.price) + 0.01
+            
     item = Listing.objects.get(pk=item_id)
     return render(request,"auctions/item.html",{
         "name":item.item_name,
@@ -116,7 +119,8 @@ def item_view(request,item_id):
         'details':item.product_details,
         'listing_image': item.listing_image.url,
         'button_tag':button_tag,
-        'bid':bid
+        'bid':bid,
+        'min_bid':min_bid,
     })
   
 
@@ -129,11 +133,16 @@ def user_watchlist_view(request,user_id):
         #'watchlist_items':Listing.objects.get(pk=user_id)
         'watchlist_items':watchlist_items
     })
-    
-    
 
+def place_bid_view(request,item_id):
 
-
-       
+    if request.method =='POST':
+        newest_bid = request.POST["newest_bid"]
+        bid_user= request.user
+        bid_listing = Listing(pk=item_id)
+        b=Bid(bid=newest_bid, user = bid_user, listing = bid_listing)
+        b.save()
+        #Listing(pk=item_id).price = 
     
+    return HttpResponseRedirect(reverse("index"))
 

@@ -23,14 +23,33 @@
         Item Id: {{item_id}} <br>
         Openning Price: $ {{ price }} 
         <hr>
+        
+    
+        
         {%if bid%}
-        Last Bid: $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
+        <b>Last Bid:</b>  $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
             {%if user == bid.user %} 
             <p>You bidded last!</p>
             {% else %}
-            <a href="">Bid</a> <br>
+
+            <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                {% csrf_token %}
+                <input type="number" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
+                <input type="submit" value="Place Bid">
+            </form>
             {% endif %}
+
+        {% else %}
+
+            <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                {% csrf_token %}
+                <input type="number" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
+                <input type="submit" value="Place Bid">
+            </form>
+            
         {% endif %}
+        
+        
         <hr>
         Details: {{details}} <br>
         {%if listing_image %}
