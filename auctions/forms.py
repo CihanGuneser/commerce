@@ -9,7 +9,7 @@ class ListingForm(forms.ModelForm):
     
     class Meta:
         model = Listing
-        fields = ('user_id','item_name','product_category','product_details','listing_image_link','listing_image','price')
+        fields = ('user','item_name','product_category','product_details','listing_image_link','listing_image','price')
 
     
     #user_id = models.ForeignKey(User, on_delete=CASCADE)  #many to one relationship with User model

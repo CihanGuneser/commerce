@@ -124,6 +124,7 @@ def item_view(request,item_id):
         'button_tag':button_tag,
         'bid':bid,
         'min_bid':min_bid,
+        'item_user':item.user
     })
   
 
@@ -138,7 +139,6 @@ def user_watchlist_view(request,user_id):
     })
 
 def place_bid_view(request,item_id):
-
     if request.method =='POST':
         newest_bid = request.POST["newest_bid"]
         bid_user= request.user
@@ -147,4 +147,17 @@ def place_bid_view(request,item_id):
         b.save()
     
     return HttpResponseRedirect(reverse("item", args= {item_id}))
+
+def close_bid_view(request, item_id):
+    if request.method=='POST':
+        latest_bid = Bid.objects.filter(listing=item_id).latest('date')
+        latest_bid.closed = True
+        latest_bid.save()
+
+        item = get_object_or_404(Listing, pk=item_id)
+        item.last_accepted_bid = latest_bid.bid
+        item.save()
+
+    return HttpResponseRedirect(reverse("item", args= {item_id,}))
+
 
