@@ -124,7 +124,8 @@ def item_view(request,item_id):
         'button_tag':button_tag,
         'bid':bid,
         'min_bid':min_bid,
-        'item_user':item.user
+        'item_user':item.user,
+        'bid_closed':bid.closed
     })
   
 
