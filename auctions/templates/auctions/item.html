@@ -32,15 +32,19 @@
                 {% csrf_token %}
                 <input type="submit" value={{button_tag}}>
             </form><br>   
-            {% if bid.closed == False and user != bid.user %} <!--D-->
-                <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
-                    {% csrf_token %}
-                    <div class="currency-wrap">
-                        <span class="currency-code">$</span>
-                        <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
-                        <input type="submit" value="Place Bid">
-                    </div>
-                </form>
+            {% if bid.closed == False %} <!--D-->
+                {%if user != bid.user %} <!--E-->
+                    <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                        {% csrf_token %}
+                        <div class="currency-wrap">
+                            <span class="currency-code">$</span>
+                            <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
+                            <input type="submit" value="Place Bid">
+                        </div>
+                    </form>
+                {% else %} <!--E-->
+                    You bidded last!
+                {% endif %} <!--E-->
             {% endif %} <!--D-->
             {% if bid.closed == True %} <!--E-->
                 <b>Bid is closed!</b>
