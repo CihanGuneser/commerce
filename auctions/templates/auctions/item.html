@@ -7,59 +7,54 @@
   <a href="{% url 'index' %}"><< Back to Listings </a>  
 <div class="listing_div" id="{{item.id}}"> 
     <ul>
-        <h5>{{name}}</h5>
-        {% if user.is_authenticated %} <!---->
-        <form method=POST action="{% url 'watchlist' item_id=item_id %}"> 
-            {% csrf_token %}
-            <input type="submit" value={{button_tag}}>
-        </form><br>
-        {% else %}
-            Please <i><b><a href="{% url 'login' %}">Login</a></b></i> to add to your watchlist <br>
-        {% endif %}
-        Item Id: {{item_id}} <br>
-        Listed by: {{item_user}} <br>
-        Openning Price: $ {{ price }} 
-        <hr>
-        {% if user.is_authenticated %} <!---->
-            {%if bid%}
-            <b>Last Bid:</b>  $ {{bid.bid}} on {{bid.date}} by {{bid.user}} <br>
-                {% if user == item_user and bid.closed != True%} <!---->
-                    <form method = 'POST' action="{% url 'close_bid_view' item_id=item_id %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Close Bid">
-                    </form>
-                {% else %}
-                    {% if bid.closed == True %}  <!---->
-                    <b>Bidding closed.
-                    {% endif %}
-                    {% if user == bid.user %}  <!---->
-                    You won the bidding!</b>
-                    {% else %}
-                        <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
-                            {% csrf_token %}
-                            <div class="currency-wrap">
-                                <span class="currency-code">$</span>
-                                <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
-                                <input type="submit" value="Place Bid">
-                            </div>
-                    </form>
-                    {% endif %}
-                {% endif %}
-            {% else %}
-                {% if bid.closed == False %} <!---->
-                <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+    <h5>{{name}}</h5>
+    Item Id: {{item_id}} <br>
+    Listed by: {{item_user}} <br>
+    Openning Price: $ {{ price }} <br>
+    <b>Last Bid:</b>  $ {{bid.bid}}
+    <hr>
+    {% if user.is_authenticated %} <!--A-->
+        {% if user == item_user %} <!--B-->
+            
+            {%if bid and bid.closed == False %} <!--C-->
+                <form method = 'POST' action="{% url 'close_bid_view' item_id=item_id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Close Bid">
+                </form>
+            {% elif bid and bid.closed == True %} <!--C-->
+                <i>You closed the bid.</i>
+            {% else %} <!--C-->
+                <i>There is no bid for this item yet.</i>
+            {% endif %} <!--C-->
+        
+        {% else %} <!--B-->
+            <form method=POST action="{% url 'watchlist' item_id=item_id %}"> 
                 {% csrf_token %}
+                <input type="submit" value={{button_tag}}>
+            </form><br>   
+            {% if bid.closed == False and user != bid.user %} <!--D-->
+                <form method="POST" enctype="" action="{% url 'place_bid_view' item_id=item_id %}" >
+                    {% csrf_token %}
                     <div class="currency-wrap">
                         <span class="currency-code">$</span>
                         <input type="number" class="text-currency" name="newest_bid" id="" step="0.01" placeholder="{{min_bid}}" min="{{min_bid}}">
                         <input type="submit" value="Place Bid">
                     </div>
                 </form>
-                {% endif %}
-            {% endif %}
-        {% else %}
-            Latest Bid: $ {{bid.bid}} <b><i><a href="{% url 'login' %}">Login</a></b></i> to add to your watchlist <br>
-        {% endif %}
+            {% endif %} <!--D-->
+            {% if bid.closed == True %} <!--E-->
+                <b>Bid is closed!</b>
+                {% if user == bid.user %} <!--F-->
+                    <b>You won the bidding!</b>
+                {% endif %} <!--F-->    
+            {% endif %} <!--E-->
+        {% endif %} <!--B-->
+    
+    {% else %} <!--A-->
+    
+    Please <a href="{% url 'login' %}">Login</a>  to be able to bid or to add to your watchlist. <br> 
+
+    {% endif %} <!--A-->
 
         <hr>
         Details: {{details}} <br>

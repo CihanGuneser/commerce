@@ -25,9 +25,9 @@ def watchlist_view(request, item_id):
     
     return HttpResponseRedirect(reverse('item', args=[item_id]))
 
-def index(request):
+def index(request): 
     return render(request, "auctions/index.html", {
-        'Listing':Listing.objects.all(),
+        'Listing':Listing.objects.all(),    
         #'Listing.listing_image.url':Listing.listing_image.name,
     })
 
