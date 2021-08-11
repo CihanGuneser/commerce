@@ -32,11 +32,11 @@ class Bid(models.Model):
         return f"Bid id: {self.pk}, {self.listing_id}, created at {self.date} "
 
 class Comment(models.Model):
-    comment_title = models.CharField(max_length=32, blank=False)
-    comment_text = models.TextField(max_length=256,blank=False)
-    comment_time = models.DateTimeField(auto_now_add=True) ##You can adjust this one 
+    title = models.CharField(max_length=32, blank=False)
+    text = models.TextField(max_length=256,blank=False)
+    date = models.DateTimeField(auto_now_add=True) ##You can adjust this one 
     user = models.ForeignKey(User, on_delete=CASCADE)
-    listing_id = models.ForeignKey(Listing, on_delete=CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=CASCADE)
 
     def __str__(self):
-        return f"Comment id: {self.id}, on item: {self.listing_id}, created at {self.comment_time}"
+        return f"Comment id: {self.id}, on item: {self.listing}, created at {self.date}"

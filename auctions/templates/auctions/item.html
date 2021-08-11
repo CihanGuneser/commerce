@@ -5,7 +5,7 @@
 {% load static %}
 <h2>Active Listing:</h2>
   <a href="{% url 'index' %}"><< Back to Listings </a>  
-<div class="listing_div" id="{{item.id}}"> 
+<div class="listing_div" id="{{item_id}}"> 
     <ul>
     <h5>{{name}}</h5>
     Item Id: {{item_id}} <br>
@@ -22,7 +22,7 @@
                     <input type="submit" value="Close Bid">
                 </form>
             {% elif bid and bid.closed == True %} <!--C-->
-                <i>You closed the bid.</i>
+                <i>You closed the bid. <b>{{bid.user}}</b> won the bid!</i>
             {% else %} <!--C-->
                 <i>There is no bid for this item yet.</i>
             {% endif %} <!--C-->
@@ -56,7 +56,7 @@
     
     {% else %} <!--A-->
     
-    Please <a href="{% url 'login' %}">Login</a>  to be able to bid or to add to your watchlist. <br> 
+    Please <a href="{% url 'login' %}">Login</a>  to be able to bid and to add item to your watchlist. <br> 
 
     {% endif %} <!--A-->
 
@@ -71,6 +71,28 @@
         {% else %}
         <p style="color: red; font-style:italic" >There is no image uploaded.</p> 
         {% endif %}<hr>
+        
+        {% if user.is_authenticated %}
+        <form action="{% url 'save_comment' item_id %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="comment_title" id="" placeholder="Title" required> <br>
+            <textarea name="comment_details" id="" cols="30" rows="5" placeholder="Comment" required></textarea> <br>
+            <input type="submit">
+        </form>
+        <hr>
+        <i><b>COMMENTS:</b></i><hr>
+        {%for comment in comments%}
+        <ul>
+        {{comment.title}} , by <b><i>{{comment.user}}</i></b> <br>
+        Comment: {{comment.text}}
+        <hr>
+        </ul>
+        {% endfor %}
+        {% else %}
+        Please <a href="{% url 'login' %}">Login</a>  to be able to see and add comments. <br> 
+        {% endif %}
+
+
     </ul>
 </div>
 
