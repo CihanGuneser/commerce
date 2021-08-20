@@ -84,7 +84,7 @@ def register(request):
         return render(request, "auctions/register.html")
 
 def create_listing(request):
-    form = ListingForm()
+    form = ListingForm(initial={'user':request.user})
     return render(request,"auctions/create_listing.html", {
         'form':form}
     )
@@ -138,7 +138,6 @@ def item_view(request,item_id):
         'comments':comments
     })
   
-
 def user_watchlist_view(request,user_id):
    
     watchlist_items = Listing.objects.filter(watchlist__id=user_id)
