@@ -18,7 +18,19 @@ class Listing(models.Model):
     last_accepted_bid = models.DecimalField(decimal_places=2, max_digits=6, default=0 )
 
     def __str__(self):
-        return f"Listing id: {self.pk}, item: {self.item_name} "
+        return f"Listing id: {self.pk}, item: {self.item_name}"
+
+class Category(models.Model):
+    name = models.CharField(max_length=32, blank=True)
+    listing = models.ManyToManyField(Listing,related_name='category', default=None, blank=True)
+    
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return f"{self.name}, id: {self.id}"
+
+
 
 class Bid(models.Model):
 

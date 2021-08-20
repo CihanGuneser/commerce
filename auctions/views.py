@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
-from .models import Bid, Comment, Listing, User
+from .models import Bid, Category, Comment, Listing, User
 from .forms import ListingForm
 
 def watchlist_view(request, item_id):
@@ -30,8 +30,8 @@ def watchlist_view(request, item_id):
 
 def index(request): 
     return render(request, "auctions/index.html", {
-        'Listing':Listing.objects.all(),    
-        #'Listing.listing_image.url':Listing.listing_image.name,
+        'Listing':Listing.objects.all(),
+        'Category':Category.objects.all()
     })
 
 def login_view(request):
