@@ -8,7 +8,7 @@ from django.db.models.fields import AutoField
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import request
 from django.http.request import HttpRequest
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
@@ -171,11 +171,32 @@ def close_bid_view(request, item_id):
     return HttpResponseRedirect(reverse("item", args= {item_id,}))
 
 def save_comment_view(request,item_id):
-        if request.method=='POST':
-            c = Comment(title = request.POST['comment_title'], 
-                        text = request.POST['comment_details'],
-                        date = timezone.datetime.now,
-                        user = request.user,
-                        listing = Listing.objects.get(pk=item_id))
-            c.save()
-        return HttpResponseRedirect(reverse("item", args={item_id,}))
+
+    if request.method=='POST':
+        c = Comment(title = request.POST['comment_title'], 
+                    text = request.POST['comment_details'],
+                    date = timezone.datetime.now,
+                    user = request.user,
+                    listing = Listing.objects.get(pk=item_id))
+        c.save()
+    return HttpResponseRedirect(reverse("item", args={item_id,}))
+
+def categorize_view(request):
+    
+    if request.method=='POST':
+        selected_category_id=Category.objects.get(pk=request.POST['select_category']).id
+
+    if selected_category_id==16: #means 'All' selected. id of All is 16. 
+        Listed_items = Listing.objects.all()
+    else:
+        Listed_items = Listing.objects.filter(product_category=selected_category_id)
+
+    return render(request, "auctions/index.html", {
+        'Category': Category.objects.all(),
+        'Listing': Listed_items,
+        'number_of_listing_in_the_cat': Listing.objects.filter(product_category=selected_category_id).count(),
+        'selected_category_name': Category.objects.get(pk=selected_category_id).name
+    })
+
+def dummy(request):
+    return render(request, "auctions/dummy.html")

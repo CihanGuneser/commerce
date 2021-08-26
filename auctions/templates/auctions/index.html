@@ -4,16 +4,18 @@
 {% block body %}
 {% load static %}
     <h2>Active Listings</h2>
-    <form action="index">
-        <select type="coice" name="Category" id="">
-            <option value="" selected>All</option>
+    <form method="POST" action="{% url 'categorize_view' %}">
+        {% csrf_token %}
+        <label for="select_category">Filter by Category</label> <br>
+        <select name="select_category" id="select_category">
+            <option value="{{selected_category_id}}" selected>{{selected_category_name}}</option>
             {% for category in Category %}
-            <option value="" selected>{{category.name}}</option>
+            <option value="{{category.id}}" >{{category.name}}</option>
             {% endfor %}
-        <input type="submit" name="" id="" value="Filter by Category"> 
+        <input type="submit" name="filter_button" id="" value="Filter"> 
     </form>
-    <h5>All items :</h5>
-    
+    <h5>Total no. of items :{% if number_of_listing_in_the_cat != 0 %} {{number_of_listing_in_the_cat}}
+                     {% else %} <i>There is no item in this category</i> {% endif %}</h5>  
     {%for item in Listing%}
     
     <div class="listing_div" id="{{item.id}}">

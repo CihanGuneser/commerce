@@ -6,10 +6,19 @@ from django.db.models.deletion import CASCADE
 class User(AbstractUser):
     pass
 
+class Category(models.Model):
+    name = models.CharField(max_length=32, blank=True)
+    
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return f"{self.name}, id: {self.id}"
+
 class Listing(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)  #many to one relationship with User model
     item_name = models.CharField(max_length=64, blank=False)
-    product_category = models.CharField(max_length=32, blank=False)
+    product_category = models.ManyToManyField(Category, related_name='category', default=None, blank=True, null=True)
     product_details = models.TextField(max_length=256, blank=False)
     listing_image_link = models.CharField(max_length=256,blank=True )
     listing_image = models.ImageField(blank = True, upload_to='img/%Y/%m/%d')
@@ -19,18 +28,6 @@ class Listing(models.Model):
 
     def __str__(self):
         return f"Listing id: {self.pk}, item: {self.item_name}"
-
-class Category(models.Model):
-    name = models.CharField(max_length=32, blank=True)
-    listing = models.ManyToManyField(Listing,related_name='category', default=None, blank=True)
-    
-    class Meta:
-        verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return f"{self.name}, id: {self.id}"
-
-
 
 class Bid(models.Model):
 
