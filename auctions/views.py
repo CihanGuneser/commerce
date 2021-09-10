@@ -194,7 +194,7 @@ def categorize_view(request):
     return render(request, "auctions/index.html", {
         'Category': Category.objects.all(),
         'Listing': Listed_items,
-        'number_of_listing_in_the_cat': Listing.objects.filter(product_category=selected_category_id).count(),
+        'number_of_listing_in_the_cat': Listed_items.count(),
         'selected_category_name': Category.objects.get(pk=selected_category_id).name
     })
 

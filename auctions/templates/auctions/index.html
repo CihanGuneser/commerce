@@ -6,9 +6,9 @@
     <h2>Active Listings</h2>
     <form method="POST" action="{% url 'categorize_view' %}">
         {% csrf_token %}
-        <label for="select_category">Filter by Category</label> <br>
+        <label for="select_category">Filter by Category:</label> <br>
         <select name="select_category" id="select_category">
-            <option value="{{selected_category_id}}" selected>{{selected_category_name}}</option>
+            <option value=16 selected>All</option>
             {% for category in Category %}
             <option value="{{category.id}}" >{{category.name}}</option>
             {% endfor %}
